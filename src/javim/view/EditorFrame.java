@@ -18,7 +18,7 @@ public class EditorFrame extends JFrame {
 	private EditorScrollPane editorScrollPane = new EditorScrollPane(editorTextArea);
 	private EditorFileLabel editorFileLabel = new EditorFileLabel();
 	private CommanderTextArea commanderTextArea = new CommanderTextArea();
-	private FileManager fileManager = new FileManager(editorFileLabel);
+	private FileManager fileManager = new FileManager(editorFileLabel, editorTextArea);
 
 	private JPanel southPanel = new JPanel(new BorderLayout());
 

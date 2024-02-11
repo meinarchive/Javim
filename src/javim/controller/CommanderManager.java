@@ -86,6 +86,20 @@ public class CommanderManager {
 			String fileName = command.substring(2).trim();
 			fileManager.saveFile(fileName, content);
 			System.out.println(fileName + " saved");
+		} else if (command.equals("s")) {
+			fileManager.saveCurrentFile(content);
+		} else if (command.startsWith("o ")) {
+			String fileName = command.substring(2).trim();
+			fileManager.openFile(fileName, fileName);
+		} else if (command.equals("cl")) {
+			fileManager.closeFile();
+		} else if (command.equals("see wrd")) {
+            System.out.println("Working directory set to: " + fileManager.getWorkingDirectory());
+		} else if (command.startsWith("set wrd ")) {
+			String workingDirectory = command.substring(8).trim();
+			fileManager.setWorkingDirectory(workingDirectory);
+		} else if (command.equals("rset wrd")) {
+			fileManager.revertToDefaultDirectory("");
 		} else {
 			System.out.println("Unknown command");
 		}

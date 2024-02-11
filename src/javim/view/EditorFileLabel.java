@@ -41,4 +41,9 @@ public class EditorFileLabel extends JLabel {
 		this.editorFile = editorFile;
 		updateFileNameDisplay();
 	}
+
+	public void updateFileName(String newFileName) {
+		this.editorFile.setFileName(newFileName);
+		updateFileNameDisplay(); 
+	}
 }
