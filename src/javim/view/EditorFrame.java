@@ -1,5 +1,7 @@
 package javim.view;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 public class EditorFrame extends JFrame {
@@ -8,6 +10,9 @@ public class EditorFrame extends JFrame {
 	private static final int FRAME_WIDTH = 800;
 	private static final int FRAME_HEIGHT = 600;
 	
+	private EditorTextArea editorTextArea = new EditorTextArea();
+	private EditorScrollPane editorScrollPane = new EditorScrollPane(editorTextArea);
+		
 	public EditorFrame() {
 		initializeFrame();
 	}
@@ -16,6 +21,10 @@ public class EditorFrame extends JFrame {
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+				
+		add(editorScrollPane, BorderLayout.CENTER);
+		
+		editorTextArea.requestFocusInWindow();
 	}
 
 	public static int getFrameWidth() {
