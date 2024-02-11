@@ -14,6 +14,7 @@ public class EditorFrame extends JFrame {
 	private EditorTextArea editorTextArea = new EditorTextArea();
 	private EditorScrollPane editorScrollPane = new EditorScrollPane(editorTextArea);
 	private EditorFileLabel editorFileLabel = new EditorFileLabel();
+	private CommanderTextArea commanderTextArea = new CommanderTextArea();
 	
 	private JPanel southPanel = new JPanel(new BorderLayout());
 
@@ -28,9 +29,11 @@ public class EditorFrame extends JFrame {
 				
 		southPanel.add(editorFileLabel, BorderLayout.SOUTH); 
 
+		add(commanderTextArea, BorderLayout.NORTH);
 		add(editorScrollPane, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 		
+		commanderTextArea.setVisible(false);
 		editorTextArea.requestFocusInWindow();
 	}
 
