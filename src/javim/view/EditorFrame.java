@@ -19,13 +19,14 @@ public class EditorFrame extends JFrame {
 	private EditorFileLabel editorFileLabel = new EditorFileLabel();
 	private CommanderTextArea commanderTextArea = new CommanderTextArea();
 	private FileManager fileManager = new FileManager(editorFileLabel, editorTextArea);
+	private EditorInfoLabel editorInfoLabel = new EditorInfoLabel();
 
 	private JPanel southPanel = new JPanel(new BorderLayout());
 
 	public EditorFrame() {
 		initializeFrame();
 		
-		new CommanderManager(this, fileManager);
+		new CommanderManager(this, fileManager, editorInfoLabel);
 	}
 
 	private void initializeFrame() {
@@ -33,6 +34,7 @@ public class EditorFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
+		southPanel.add(editorInfoLabel, BorderLayout.NORTH);
 		southPanel.add(editorFileLabel, BorderLayout.SOUTH);
 
 		add(commanderTextArea, BorderLayout.NORTH);
@@ -57,5 +59,9 @@ public class EditorFrame extends JFrame {
 
 	public CommanderTextArea getCommanderTextArea() {
 		return commanderTextArea;
+	}
+
+	public EditorFileLabel getEditorFileLabel() {
+		return editorFileLabel;
 	}
 }

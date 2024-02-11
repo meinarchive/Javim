@@ -11,15 +11,18 @@ import javax.swing.KeyStroke;
 
 import javim.view.CommanderTextArea;
 import javim.view.EditorFrame;
+import javim.view.EditorInfoLabel;
 import javim.view.EditorScrollPane;
 
 public class CommanderManager {
 	private EditorFrame editorFrame;
 	private FileManager fileManager;
+	private EditorInfoLabel editorInfoLabel;
 
-	public CommanderManager(EditorFrame editorFrame, FileManager fileManager) {
+	public CommanderManager(EditorFrame editorFrame, FileManager fileManager, EditorInfoLabel editorInfoLabel) {
 		this.editorFrame = editorFrame;
 		this.fileManager = fileManager;
+		this.editorInfoLabel = editorInfoLabel;
 
 		initializeCommander();
 	}
@@ -71,11 +74,14 @@ public class CommanderManager {
 		commanderTextArea.setVisible(!commanderTextArea.isVisible());
 		editorScrollPane.getEditorTextArea().setEditable(false);
 
+		editorInfoLabel.setMode("COMMANDER");
+
 		if (commanderTextArea.isVisible()) {
 			commanderTextArea.requestFocusInWindow();
 		} else {
 			editorScrollPane.getEditorTextArea().requestFocus();
 			editorScrollPane.getEditorTextArea().setEditable(true);
+			editorInfoLabel.setMode("NORMAL");
 		}
 	}
 
@@ -85,23 +91,32 @@ public class CommanderManager {
 		if (command.startsWith("s ")) {
 			String fileName = command.substring(2).trim();
 			fileManager.saveFile(fileName, content);
-			System.out.println(fileName + " saved");
+			editorInfoLabel.setStatus(fileName + " saved");
 		} else if (command.equals("s")) {
 			fileManager.saveCurrentFile(content);
+			editorInfoLabel.setStatus(editorFrame.getEditorFileLabel().getEditorFile().getFileName() + " saved");
 		} else if (command.startsWith("o ")) {
 			String fileName = command.substring(2).trim();
 			fileManager.openFile(fileName, fileName);
+			editorInfoLabel.setStatus(null);
 		} else if (command.equals("cl")) {
 			fileManager.closeFile();
 		} else if (command.equals("see wrd")) {
-            System.out.println("Working directory set to: " + fileManager.getWorkingDirectory());
+			editorInfoLabel.setStatus(fileManager.getWorkingDirectory());
 		} else if (command.startsWith("set wrd ")) {
 			String workingDirectory = command.substring(8).trim();
 			fileManager.setWorkingDirectory(workingDirectory);
+			editorInfoLabel.setStatus("Working directory set to: " + fileManager.getWorkingDirectory());
 		} else if (command.equals("rset wrd")) {
 			fileManager.revertToDefaultDirectory("");
+			editorInfoLabel.setStatus("Working directory reverted to: " + fileManager.getWorkingDirectory());
+		} else if (command.equals("term")) {
+			String workingDirectory = fileManager.getWorkingDirectory();
+			fileManager.openTerminal(workingDirectory);
+		} else if (!command.equals("")) {
+			editorInfoLabel.setStatus("Unknown command");
 		} else {
-			System.out.println("Unknown command");
+			editorInfoLabel.setStatus("");
 		}
 	}
 

@@ -19,6 +19,8 @@ public class FileManager {
 	private EditorFileLabel editorFileLabel;
 	private String workingDirectory;
 	private EditorTextArea editorTextArea;
+	private String osName = System.getProperty("os.name").toLowerCase();
+
 
 	public FileManager(EditorFileLabel editorFileLabel, EditorTextArea editorTextArea) {
 		this.editorFileLabel = editorFileLabel;
@@ -54,13 +56,13 @@ public class FileManager {
 			return false;
 		}
 		File directory = new File(directoryPath);
-		return directory.exists() && directory.isDirectory(); 
+		return directory.exists() && directory.isDirectory();
 	}
 
 	protected void revertToDefaultDirectory(String reason) {
-		this.workingDirectory = System.getProperty("user.dir"); 
+		this.workingDirectory = System.getProperty("user.dir");
 		System.out.println(reason + "Working directory set to: " + this.workingDirectory);
-		saveSettings(); 
+		saveSettings();
 	}
 
 	private void saveSettings() {
@@ -130,5 +132,27 @@ public class FileManager {
 					"Provided working directory is invalid. Reverting to default directory: " + this.workingDirectory);
 		}
 		saveSettings();
+	}
+
+	public void openTerminal(String workingDirectory) {
+		try {
+			String[] command = new String[3];
+			if (osName.contains("win")) {
+				command[0] = "cmd.exe";
+				command[1] = "/c";
+				command[2] = "start";
+			} else if (osName.contains("mac")) {
+				command[0] = "/usr/bin/open";
+				command[1] = "-a";
+				command[2] = "Terminal " + workingDirectory;
+			} else if (osName.contains("nix") || osName.contains("nux") || osName.contains("aix")) {
+				command[0] = "/usr/bin/gnome-terminal";
+				command[1] = "--working-directory=" + workingDirectory;
+			}
+
+			Runtime.getRuntime().exec(command, null, new File(workingDirectory));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
