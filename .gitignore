@@ -39,6 +39,7 @@ build/
 # Temporary files
 *~
 *.swp
+*.properties
 
 # OS generated files
 .DS_Store
