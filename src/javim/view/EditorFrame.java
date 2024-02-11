@@ -3,6 +3,7 @@ package javim.view;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class EditorFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -12,7 +13,10 @@ public class EditorFrame extends JFrame {
 	
 	private EditorTextArea editorTextArea = new EditorTextArea();
 	private EditorScrollPane editorScrollPane = new EditorScrollPane(editorTextArea);
-		
+	private EditorFileLabel editorFileLabel = new EditorFileLabel();
+	
+	private JPanel southPanel = new JPanel(new BorderLayout());
+
 	public EditorFrame() {
 		initializeFrame();
 	}
@@ -22,7 +26,10 @@ public class EditorFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 				
+		southPanel.add(editorFileLabel, BorderLayout.SOUTH); 
+
 		add(editorScrollPane, BorderLayout.CENTER);
+		add(southPanel, BorderLayout.SOUTH);
 		
 		editorTextArea.requestFocusInWindow();
 	}
