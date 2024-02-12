@@ -98,7 +98,6 @@ public class CommanderManager {
 		} else if (command.startsWith("o ")) {
 			String fileName = command.substring(2).trim();
 			fileManager.openFile(fileName, fileName);
-			editorInfoLabel.setStatus("");
 		} else if (command.equals("cl")) {
 			fileManager.closeFile();
 			editorInfoLabel.setStatus("");

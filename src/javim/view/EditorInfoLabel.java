@@ -29,7 +29,7 @@ public class EditorInfoLabel extends JLabel {
 
 	private void updateLabel() {
 		String output = "<html><body style='padding: 4px; padding-left: 10px;'>" + mode
-				+ "\t" + status + "</body></html>";
+				+ " " + status + "</body></html>";
 		setText(output);
 	}
 

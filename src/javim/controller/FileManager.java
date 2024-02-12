@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import javim.view.EditorFileLabel;
+import javim.view.EditorInfoLabel;
 import javim.view.EditorTextArea;
 
 public class FileManager {
@@ -19,12 +20,14 @@ public class FileManager {
 	private EditorFileLabel editorFileLabel;
 	private String workingDirectory;
 	private EditorTextArea editorTextArea;
+	private EditorInfoLabel editorInfoLabel;
 	private String osName = System.getProperty("os.name").toLowerCase();
 
-
-	public FileManager(EditorFileLabel editorFileLabel, EditorTextArea editorTextArea) {
+	public FileManager(EditorFileLabel editorFileLabel, EditorTextArea editorTextArea,
+			EditorInfoLabel editorInfoLabel) {
 		this.editorFileLabel = editorFileLabel;
 		this.editorTextArea = editorTextArea;
+		this.editorInfoLabel = editorInfoLabel;
 		this.workingDirectory = System.getProperty("user.dir");
 
 		loadSettings();
@@ -106,9 +109,9 @@ public class FileManager {
 			}
 			this.editorTextArea.setText(text.toString());
 			editorFileLabel.updateFileName(fileName);
+			editorInfoLabel.setStatus(""); 
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Failed to open file: " + e.getMessage());
+			editorInfoLabel.setStatus(e.getMessage()); 
 		}
 	}
 
