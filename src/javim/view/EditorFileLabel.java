@@ -9,12 +9,18 @@ public class EditorFileLabel extends JLabel {
 	private static final long serialVersionUID = 1L;
 
 	private EditorFile editorFile;
+	private int lineCount = 1;
 
 	public EditorFileLabel() {
 		this.editorFile = new EditorFile();
 
 		updateFileNameDisplay();
 		initializeFileLabel();
+	}
+
+	public void updateLineCount(int newLineCount) {
+		this.lineCount = newLineCount;
+		updateFileNameDisplay();
 	}
 
 	private void updateFileNameDisplay() {
@@ -30,7 +36,8 @@ public class EditorFileLabel extends JLabel {
 	}
 
 	private String formatFileName(String fileName) {
-		return "<html><body style='padding: 4px; padding-left: 10px;'>- " + fileName + "</body></html>";
+		return "<html><body style='padding: 4px; padding-left: 10px;'>- " + fileName
+				+ "      <span style='font-size: 10px; color: " + EditorConstants.SECONDARY_FOREGROUND_HTML + ";'>lns " + lineCount + "</span></body></html>";
 	}
 
 	public EditorFile getEditorFile() {
@@ -44,6 +51,6 @@ public class EditorFileLabel extends JLabel {
 
 	public void updateFileName(String newFileName) {
 		this.editorFile.setFileName(newFileName);
-		updateFileNameDisplay(); 
+		updateFileNameDisplay();
 	}
 }

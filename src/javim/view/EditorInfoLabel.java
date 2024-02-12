@@ -28,8 +28,8 @@ public class EditorInfoLabel extends JLabel {
 	}
 
 	private void updateLabel() {
-		String output = "<html><body style='padding: 4px; padding-left: 10px;'>" + mode
-				+ " " + status + "</body></html>";
+		String output = "<html><body style='padding: 4px; padding-left: 10px; color: white'>" + mode
+				+ " " + "<span style='color: " + EditorConstants.SECONDARY_FOREGROUND_HTML + ";'>" + status + "<span/>"+ "</body></html>";
 		setText(output);
 	}
 

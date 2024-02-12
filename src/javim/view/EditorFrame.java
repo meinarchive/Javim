@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
 
 import javim.controller.CommanderManager;
 import javim.controller.FileManager;
@@ -22,9 +26,11 @@ public class EditorFrame extends JFrame {
 	private FileManager fileManager = new FileManager(editorFileLabel, editorTextArea, editorInfoLabel);
 
 	private JPanel southPanel = new JPanel(new BorderLayout());
+	private LineNumberComponent lineNumberComponent;
 
 	public EditorFrame() {
 		initializeFrame();
+		setupDocumentListener();
 
 		new CommanderManager(this, fileManager, editorInfoLabel);
 	}
@@ -38,11 +44,39 @@ public class EditorFrame extends JFrame {
 		southPanel.add(editorFileLabel, BorderLayout.SOUTH);
 
 		add(commanderTextArea, BorderLayout.NORTH);
+		lineNumberComponent = new LineNumberComponent(editorTextArea);
+		editorScrollPane.setRowHeaderView(lineNumberComponent);
 		add(editorScrollPane, BorderLayout.CENTER);
 		add(southPanel, BorderLayout.SOUTH);
 
 		commanderTextArea.setVisible(false);
 		editorTextArea.requestFocusInWindow();
+
+	}
+
+	private void setupDocumentListener() {
+		editorTextArea.getDocument().addDocumentListener(new DocumentListener() {
+			public void insertUpdate(DocumentEvent e) {
+				updateLineCount();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				updateLineCount();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+
+			}
+		});
+	}
+
+	private void updateLineCount() {
+		SwingUtilities.invokeLater(() -> {
+			Document doc = editorTextArea.getDocument();
+			int lineCount = doc.getDefaultRootElement().getElementCount();
+			editorFileLabel.updateLineCount(lineCount);
+			lineNumberComponent.setLineCount(lineCount);
+		});
 	}
 
 	public static int getFrameWidth() {

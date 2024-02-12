@@ -102,22 +102,28 @@ public class FileManager {
 		String fullPath = workingDirectory.isEmpty() ? path : workingDirectory + "/" + path;
 
 		StringBuilder text = new StringBuilder();
+
+		int lineCount = 0;
+
 		try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				text.append(line).append("\n");
+				lineCount++;
 			}
 			this.editorTextArea.setText(text.toString());
 			editorFileLabel.updateFileName(fileName);
-			editorInfoLabel.setStatus(""); 
+			editorFileLabel.updateLineCount(lineCount);
+			editorInfoLabel.setStatus("");
 		} catch (IOException e) {
-			editorInfoLabel.setStatus(e.getMessage()); 
+			editorInfoLabel.setStatus(e.getMessage());
 		}
 	}
 
 	public void closeFile() {
 		editorFileLabel.updateFileName("New file");
 		this.editorTextArea.setText("");
+		editorFileLabel.updateLineCount(0);
 	}
 
 	public String getWorkingDirectory() {
