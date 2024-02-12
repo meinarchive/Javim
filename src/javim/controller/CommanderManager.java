@@ -98,9 +98,10 @@ public class CommanderManager {
 		} else if (command.startsWith("o ")) {
 			String fileName = command.substring(2).trim();
 			fileManager.openFile(fileName, fileName);
-			editorInfoLabel.setStatus(null);
+			editorInfoLabel.setStatus("");
 		} else if (command.equals("cl")) {
 			fileManager.closeFile();
+			editorInfoLabel.setStatus("");
 		} else if (command.equals("see wrd")) {
 			editorInfoLabel.setStatus(fileManager.getWorkingDirectory());
 		} else if (command.startsWith("set wrd ")) {
@@ -113,6 +114,8 @@ public class CommanderManager {
 		} else if (command.equals("term")) {
 			String workingDirectory = fileManager.getWorkingDirectory();
 			fileManager.openTerminal(workingDirectory);
+		} else if(command.equals("q") || command.equals("q ")) {
+			System.exit(0);
 		} else if (!command.equals("")) {
 			editorInfoLabel.setStatus("Unknown command");
 		} else {
